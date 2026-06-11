@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RPG Ledger</title>
+<link rel="stylesheet" href="ledger.css">
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">⚔</span>
+      <div>
+        <h1>RPG Ledger</h1>
+        <select id="charSelect" title="Active character"></select>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button id="newCharBtn" class="icon-btn" title="New character">＋</button>
+      <button id="renameCharBtn" class="icon-btn" title="Rename current">✎</button>
+      <button id="deleteCharBtn" class="icon-btn danger" title="Delete current">🗑</button>
+      <button id="panelBtn" class="icon-btn" title="Open in side panel">⇲</button>
+    </div>
+  </header>
+
+  <!-- View switch: icon pills, NOT folder tabs. Switching does not change character. -->
+  <div class="viewtabs" role="tablist">
+    <button class="vtab active" id="tabXp" role="tab" aria-selected="true" title="Experience">
+      <svg viewBox="0 0 24 24" class="vicon" aria-hidden="true">
+        <path d="M12 2l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.8 6.1 20.7l1.3-6.6L2.5 8.9l6.6-.8z"/>
+      </svg>
+      <span>Experience</span>
+    </button>
+    <button class="vtab" id="tabCoins" role="tab" aria-selected="false" title="Treasure">
+      <svg viewBox="0 0 24 24" class="vicon" aria-hidden="true">
+        <ellipse cx="12" cy="6" rx="8" ry="3.4"/>
+        <path d="M4 6v5c0 1.9 3.6 3.4 8 3.4s8-1.5 8-3.4V6"/>
+        <path d="M4 11v5c0 1.9 3.6 3.4 8 3.4s8-1.5 8-3.4v-5"/>
+      </svg>
+      <span>Treasure</span>
+    </button>
+  </div>
+
+  <!-- ===== XP VIEW ===== -->
+  <div id="xpView" class="view">
+    <section class="balances two">
+      <div class="bal-card total xp">
+        <div class="coin">Total Experience</div>
+        <div class="amt" id="xpTotal">0</div>
+        <div class="sub" id="xpNext">No level table set</div>
+      </div>
+      <div class="bal-card level">
+        <div class="coin">Level</div>
+        <div class="amt" id="xpLevel">1</div>
+        <div class="sub">current</div>
+      </div>
+    </section>
+
+    <section class="entry">
+      <div class="seg">
+        <button class="seg-btn active" data-dir="add" id="xpSegAdd">Gain XP</button>
+        <button class="seg-btn" data-dir="sub" id="xpSegSub">Lose XP</button>
+      </div>
+      <div class="single-field">
+        <label for="xpInput">Experience</label>
+        <input type="number" id="xpInput" min="0" step="1" inputmode="numeric" placeholder="0">
+      </div>
+      <input type="text" id="xpNote" class="note" placeholder="Note (e.g. Defeated the dragon, quest reward)…">
+      <div class="entry-actions">
+        <button id="xpRecord" class="record">Record Entry</button>
+        <button id="levelsBtn" class="ghost" title="Edit level thresholds">⚑ Levels</button>
+      </div>
+    </section>
+
+    <section class="logwrap">
+      <div class="log-head">
+        <h2>Experience Log</h2>
+        <div class="log-tools">
+          <input type="search" id="xpSearch" placeholder="Search notes…">
+          <button id="exportBtn" class="ghost">Export</button>
+          <button id="importBtn" class="ghost">Import</button>
+          <input type="file" id="importFile" accept="application/json" hidden>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table><thead><tr id="xpHead"></tr></thead><tbody id="xpBody"></tbody></table>
+      </div>
+      <p class="empty" id="xpEmpty" hidden>No entries yet. Record one above.</p>
+    </section>
+  </div>
+
+  <!-- ===== COINS VIEW ===== -->
+  <div id="coinsView" class="view" hidden>
+    <section class="balances" id="coinBalances"></section>
+
+    <section class="entry">
+      <div class="seg">
+        <button class="seg-btn active" data-dir="add" id="coinSegAdd">Gain</button>
+        <button class="seg-btn" data-dir="sub" id="coinSegSub">Spend</button>
+      </div>
+      <div class="coin-inputs" id="coinInputs"></div>
+      <input type="text" id="coinNote" class="note" placeholder="Note (e.g. Sold longsword, tavern, quest reward)…">
+      <div class="entry-actions">
+        <button id="coinRecord" class="record">Record Transaction</button>
+      </div>
+    </section>
+
+    <section class="logwrap">
+      <div class="log-head">
+        <h2>Treasure Log</h2>
+        <div class="log-tools">
+          <input type="search" id="coinSearch" placeholder="Search notes…">
+          <button id="exportBtn2" class="ghost">Export</button>
+          <button id="importBtn2" class="ghost">Import</button>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table><thead><tr id="coinHead"></tr></thead><tbody id="coinBody"></tbody></table>
+      </div>
+      <p class="empty" id="coinEmpty" hidden>No transactions yet. Record one above.</p>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+</div>
+<script src="ledger.js"></script>
+</body>
+</html>

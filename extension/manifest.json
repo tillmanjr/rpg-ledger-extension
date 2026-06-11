@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "RPG Ledger — XP & Treasure",
+  "version": "1.0.0",
+  "description": "Per-character tracking of experience (with levels) and treasure (PP/GP/SP/CP). Persistent storage, side panel, JSON import/export.",
+  "permissions": ["storage", "sidePanel", "contextMenus"],
+  "action": {
+    "default_popup": "ledger.html",
+    "default_title": "RPG Ledger"
+  },
+  "side_panel": {
+    "default_path": "ledger.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
